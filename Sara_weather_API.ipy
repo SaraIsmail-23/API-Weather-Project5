@@ -1,0 +1,29 @@
+import requests
+def display_weather(data_dict):
+    for key, value in data_dict.items():
+        print(f'{key.title()}: {value}')
+
+def get_weather(city):      
+    my_key = 'b6bd007da49c31a83f02fee2a0434fa2'
+    url = f'https://api.openweathermap.org/data/2.5/weather?q={city}&units=metric&appid={my_key}'
+    response = requests.get(url)
+    data = response.json()
+    if data['cod'] != 200:
+        print(str(data['cod']))
+        return 'City is not Found'
+    else:
+        print(f'** Weather in {data["name"]} **')
+        print('*'* 10)
+        return display_weather(data['main'])
+
+def main(): 
+    while True:
+        city = input('Enter city : ')
+        get_weather(city)
+        again = input('Do you want to check another city? (y/n) : ')
+        if again == 'n':
+            print('Bye!')
+            break
+
+if __name__ == '__main__':
+    main()          
